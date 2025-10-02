@@ -3,8 +3,8 @@ package com.test.Member.entity;
 import com.test.common.validation.ValueEnum;
 
 public enum Gender implements ValueEnum<String> {
-    남성("남성"),
-    여성("여성");
+    MALE("MALE"),
+    FEMALE("FEMALE");
 
     private final String dbValue;
 

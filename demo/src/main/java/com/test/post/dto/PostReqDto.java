@@ -1,10 +1,12 @@
 package com.test.post.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.test.common.validation.EnumTypeValue;
 import com.test.post.Entity.AssistanceType;
 import com.test.post.Entity.Collage;
 import com.test.post.Entity.PostType;
 import com.test.post.Entity.ScheduleType;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -13,6 +15,7 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+
 
 public record PostReqDto(
         @NotBlank(message = "제목을 입력해주세요")
@@ -23,9 +26,12 @@ public record PostReqDto(
         @EnumTypeValue(enumClass = AssistanceType.class,message = "올바른 도움유형을 선택해주세용")
         String assistanceType,
 
+
+        @Schema(description = "기간 시작", example = "2025-10-31T00:00:00", type = "string")
         @NotNull(message = "봉사 시작 날짜를 입력해주세용")
         LocalDateTime startDate,
 
+        @Schema(description = "기간 종료일", example = "2025-10-31T00:00:00", type = "string")
         @NotNull(message = "봉사 종료 날짜를 입력해주세용")
         LocalDateTime endDate,
 
@@ -48,9 +54,11 @@ public record PostReqDto(
         String postType,
 
         @NotNull(message = "봉사 시작 시간을 입력해주세용")
+        @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "HH:mm:ss")
         LocalTime assistanceStartTime,
 
         @NotNull(message = "봉사 종료 시간을 입력해주세용")
+        @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "HH:mm:ss")
         LocalTime assistanceEndTime,
 
         @NotNull(message = "작성자 ID는 필수입니다.")
