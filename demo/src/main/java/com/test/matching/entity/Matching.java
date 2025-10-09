@@ -1,6 +1,6 @@
 package com.test.matching.entity;
 
-import com.test.comment.entity.CommentEntity;
+import com.test.comment.entity.Comment;
 import com.test.post.Entity.Post;
 import jakarta.persistence.*;
 import lombok.*;
@@ -30,9 +30,9 @@ public class Matching {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id", nullable = false, unique = true)
-    private CommentEntity comment; // 여기 추가
+    private Comment comment; // 여기 추가
 
-    public static Matching createMatching(Post post, CommentEntity comment, MatchingStatus status) {
+    public static Matching createMatching(Post post, Comment comment, MatchingStatus status) {
         return Matching.builder()
                 .post(post)
                 .comment(comment)

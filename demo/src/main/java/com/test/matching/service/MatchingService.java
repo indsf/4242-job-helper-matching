@@ -6,7 +6,7 @@ import com.test.matching.entity.Matching;
 import com.test.matching.entity.MatchingStatus;
 import com.test.matching.repository.MatchingRepository;
 import com.test.post.Entity.Post;
-import com.test.comment.entity.CommentEntity;
+import com.test.comment.entity.Comment;
 import com.test.post.Entity.PostType;
 import com.test.post.repository.PostRepository;
 import com.test.comment.repository.CommentRepository;
@@ -27,11 +27,11 @@ public class MatchingService {
     public void createMatching(Long postId, Long commentId, MatchingStatus status) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
-        CommentEntity comment = commentRepository.findById(commentId)
+        Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new IllegalArgumentException("댓글이 존재하지 않습니다."));
 
 
-        Member postMemberId = post.getMember();        // 게시글 작성자
+        Member postMemberId = post.getAuthor();       // 게시글 작성자
         Member commentMemberId = comment.getMember();  // 댓글 작성자
 
         if (postMemberId.getMemberRole() == commentMemberId.getMemberRole()) {
