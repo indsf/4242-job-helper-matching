@@ -1,5 +1,6 @@
 package com.test.post.mapper;
 
+import com.test.Member.entity.DisabilityType;
 import com.test.Member.entity.Member;
 import com.test.post.Entity.*;
 import com.test.post.dto.*;
@@ -24,7 +25,7 @@ public final class PostMapper {
                 .collage(request.collage())
                 .content(request.content())
                 .postType(PostType.postFromValue(request.postType()))
-                .disabilityType(author.getDisabilityType())
+                .disabilityType(DisabilityType.disFromValue(request.disabilityType()))
                 .gender(author.getGender())
                 .age(author.getAge())
                 .assistanceTime(AssistanceTime.builder()
