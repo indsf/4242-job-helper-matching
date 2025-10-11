@@ -1,6 +1,7 @@
 package com.test.post.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.test.Member.entity.DisabilityType;
 import com.test.common.validation.EnumTypeValue;
 import com.test.post.Entity.AssistanceType;
 import com.test.post.Entity.Collage;
@@ -60,6 +61,9 @@ public record PostReqDto(
         @NotNull(message = "봉사 종료 시간을 입력해주세용")
         @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "HH:mm:ss")
         LocalTime assistanceEndTime,
+
+        @NotNull(message = "장애타입을 선택해주세요")
+        String disabilityType,
 
         @NotNull(message = "작성자 ID는 필수입니다.")
         Long memberId
