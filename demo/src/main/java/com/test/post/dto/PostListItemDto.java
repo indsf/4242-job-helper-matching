@@ -14,9 +14,9 @@ public record PostListItemDto(
         PostType postType,
         DisabilityType disabilityType,
         AssistanceResDto assistance,
-        PostStatus postStatus,
+        PostStatus postStatus, // 매칭중 등 배지
         ScheduleListResDto schedule,
-        Boolean isLiked
+        Boolean isLiked  // 하트
 ) {
 
 }
