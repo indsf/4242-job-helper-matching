@@ -4,6 +4,7 @@ import com.test.member.entity.DisabilityType;
 import com.test.member.entity.Gender;
 import com.test.member.entity.Member;
 import com.test.common.persistance.SoftDeleteEntity;
+import com.test.post.dto.PostStatus;
 import com.test.post.dto.PostUpdateReqDto;
 import com.test.post.exception.PostUpdateNotAllowedException;
 import jakarta.persistence.*;

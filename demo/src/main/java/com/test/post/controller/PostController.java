@@ -1,12 +1,10 @@
 package com.test.post.controller;
 
-<<<<<<< HEAD
-=======
-import com.test.Member.entity.DisabilityType;
-import com.test.Member.entity.Member;
+
+import com.test.member.entity.DisabilityType;
+import com.test.member.entity.Member;
 import com.test.auth.config.SecurityUtils;
 import com.test.auth.resolver.MemberTokenId;
->>>>>>> develop
 import com.test.common.annotation.AllowAnonymous;
 import com.test.post.dto.PostDetailDto;
 import com.test.post.dto.PostEnumResDto;

@@ -33,7 +33,6 @@ public class PostService {
     private final PostRepository postRepository;
 
 
-<<<<<<< HEAD
     private static Sort toSort(String key) {
         String k = (key == null) ? "latest" : key;
         return switch (k) {
@@ -46,8 +45,6 @@ public class PostService {
         };
     }
 
-=======
->>>>>>> develop
     //게시글 생성
     @Transactional
     public Long createPost(PostReqDto postReqDto) {
