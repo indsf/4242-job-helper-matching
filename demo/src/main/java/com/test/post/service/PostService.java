@@ -33,6 +33,17 @@ public class PostService {
     private final PostRepository postRepository;
 
 
+    private static Sort toSort(String key) {
+        String k = (key == null) ? "latest" : key;
+        return switch (k) {
+            case "latest" -> Sort.by(Sort.Direction.DESC, "createdAt"); // 최신순
+            case "oldest" -> Sort.by(Sort.Direction.ASC,  "createdAt"); // 오래순
+            case "idDesc" -> Sort.by(Sort.Direction.DESC, "id");
+            case "idAsc"  -> Sort.by(Sort.Direction.ASC,  "id");
+            // 필요 시 추가: case "likes" -> Sort.by(Sort.Direction.DESC, "likeCount");
+            default       -> Sort.by(Sort.Direction.DESC, "createdAt");
+        };
+    }
 
     //게시글 생성
     @Transactional
@@ -90,10 +101,13 @@ public class PostService {
     }
 
     // 내가 작성한 게시글 목록 조회
+    @Transactional(readOnly = true)
     public PostCustomPage findPostsMyPage(int page, int size, String sort, PostType postType) {
         Member member = SecurityUtils.getCurrentMember();
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
-        Page<Post> posts = postRepository.findByAuthorIdAndPostType(member.getId(), postType, pageable);
+        Pageable pageable = PageRequest.of(page, size, toSort(sort));
+        Page<Post> posts = (postType == null)
+                ? postRepository.findByAuthor_Id(member.getId(), pageable)
+                : postRepository.findByAuthor_IdAndPostType(member.getId(), postType, pageable);
 
         List<PostListItemDto> content = posts.stream()
                 .map(post -> PostMapper.toPostListItemDto(post, false, PostStatus.MATCHING))
