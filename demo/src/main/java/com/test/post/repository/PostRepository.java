@@ -5,6 +5,7 @@ import com.test.post.Entity.Post;
 import com.test.post.Entity.PostType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -38,4 +39,12 @@ public interface PostRepository extends JpaRepository<Post,Long>{
 
     // 내가 쓴 글 조회 (Spring Data JPA 자동 생성)
     Page<Post> findByAuthor_IdAndPostType(Long memberId, PostType postType, Pageable pageable);
+
+    // 작성자 N+1 방지
+    @EntityGraph(attributePaths = { "author" })
+    Page<Post> findAll(Pageable pageable);
+
+    // 타입(ASK/OFFER) 필터
+    @EntityGraph(attributePaths = { "author" })
+    Page<Post> findByPostType(PostType postType, Pageable pageable);
 }

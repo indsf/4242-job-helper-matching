@@ -17,6 +17,7 @@ public class Matching {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "matching_id")
     private Long matchingId;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -24,21 +25,44 @@ public class Matching {
     private Post post;
 
     @Enumerated(EnumType.STRING)
-    private MatchingStatus matchingStatus;
+    @Column(name = "matching_status", nullable = false)
+    private MatchingStatus matchingStatus = MatchingStatus.PENDING; // ✅ 기본값
 
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id", nullable = false, unique = true)
-    private Comment comment; // 여기 추가
+    private Comment comment;
 
-    public static Matching createMatching(Post post, Comment comment, MatchingStatus status) {
+    // ✅ 안전장치: 저장 전 기본값 보장
+    @PrePersist
+    void prePersist() {
+        if (matchingStatus == null) {
+            matchingStatus = MatchingStatus.PENDING;
+        }
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
+    }
+
+    // ✅ 팩토리: status 안 받도록(실수 방지)
+    public static Matching createMatching(Post post, Comment comment) {
         return Matching.builder()
                 .post(post)
                 .comment(comment)
-                .matchingStatus(status)
+                .matchingStatus(MatchingStatus.PENDING)
                 .createdAt(LocalDateTime.now())
                 .build();
     }
 
+    // 기존 시그니처 유지가 필요하면 null 방어만 추가
+    public static Matching createMatching(Post post, Comment comment, MatchingStatus status) {
+        return Matching.builder()
+                .post(post)
+                .comment(comment)
+                .matchingStatus(status != null ? status : MatchingStatus.PENDING)
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
 }

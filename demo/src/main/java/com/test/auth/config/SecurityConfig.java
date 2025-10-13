@@ -40,7 +40,9 @@ public class SecurityConfig {
         // 🔸 여기 한 줄만 추가: LAN에서 접근하는 프론트 오리진 허용
         config.setAllowedOrigins(List.of(
                 "https://localhost:3000",
-                "https://10.143.3.131:3000"   // ← 추가
+                "https://10.143.3.131:3000",
+                "https://172.29.112.155:3000",
+                "http://localhost:3000"
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
@@ -89,6 +91,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/user/login", "/api/user/signup").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/members/me").authenticated()
                         .requestMatchers("/api/user/profile", "/api/user/nickname").authenticated()
+                        .requestMatchers("/api/recommend", "/api/recommend/**").permitAll()
                         .anyRequest().authenticated()
                 )
 
